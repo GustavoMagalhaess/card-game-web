@@ -1,23 +1,13 @@
-# app
+# Card Game App
 
-## Project setup
+## Build
 ```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+docker build -t card-game-web .
 ```
 
-### Compiles and minifies for production
+## Run
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+docker run -it -p 8080:8080 --rm --name card-game-web card-game-web
 ```
 
 ### Customize configuration
