@@ -2,6 +2,14 @@
   <div class="game">
     <h1>Card Game</h1>
     <div class="form">
+      <ul>
+        <li>Name is required.</li>
+        <li>Enter a hand of cards.</li>
+        <li>
+          Each card should be separated by a space. For example: 2 4 6 J K A.
+        </li>
+        <li>Valid cards include: 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A.</li>
+      </ul>
       <form @submit.prevent="onSubmit">
         <div class="form-input">
           <label class="form-label" for="name">Name</label>
@@ -90,6 +98,7 @@ export default defineComponent({
 
 <style>
 
+
 h1 {
   font-size: 5em;
 }
@@ -99,7 +108,14 @@ h1 {
   border-radius: 5px;
   width: 50%;
   margin: 50px auto 50px auto;
-  padding: 50px 0 20px 0;
+  padding: 10px 0 20px 0;
+}
+
+.form > ul {
+  font-size: 1em;
+  text-align: left;
+  width: 60%;
+  margin: 10px auto 0 auto;
 }
 
 input {
