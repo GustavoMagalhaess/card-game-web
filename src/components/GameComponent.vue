@@ -85,12 +85,10 @@ export default defineComponent({
           this.game = game || {};
           this.isWinner = game.score.is_winner;
           this.success = "Game saved.";
-          console.log(this.success);
         })
         .catch((responseError) => {
           const reponseErrorsList = responseError.response.data.errors;
           this.errors = reponseErrorsList;
-          console.log(this.errors);
         });
     },
   },
