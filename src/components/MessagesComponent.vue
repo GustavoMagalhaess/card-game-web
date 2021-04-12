@@ -1,10 +1,10 @@
 <template>
-  <div calss="success" v-if="success">
-    <p>{{ success }}</p>
+  <div class="success" v-if="successMsg !== ''">
+    <p>{{ successMsg }}</p>
   </div>
-  <div class="errors">
+  <div class="errors" v-if="Object.keys(errorsMsg).length > 0">
     <ul>
-      <li v-for="error in errorsList" :key="error.id">{{ error }}</li>
+      <li v-for="error in errorsMsg" :key="error.id">{{ error }}</li>
     </ul>
   </div>
 </template>
@@ -17,18 +17,34 @@ export default defineComponent({
   props: {
     successMsg: {
       type: String,
-      required: false,
     },
     errorsMsg: {
-      type: Array,
-      required: false,
+      type: Object,
     },
-  },
-  data() {
-    return {
-      successMessage: this.successMsg || "",
-      errorsList: this.errorsMsg || [],
-    };
   },
 });
 </script>
+
+<style scoped>
+.success,
+.errors {
+  border: 1px solid transparent;
+  width: 40%;
+  margin: 0 auto 0 auto;
+  border-radius: 5px;
+}
+
+.success {
+  background-color: rgba(106, 241, 94, 0.4);
+  color: green;
+}
+
+.errors {
+  background-color: rgba(241, 94, 94, 0.4);
+  color: red;
+}
+
+.errors > ul {
+  list-style-type: none;
+}
+</style>

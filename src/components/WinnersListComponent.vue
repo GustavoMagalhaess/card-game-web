@@ -16,7 +16,7 @@
           <div class="col">{{ score.player_hand }}</div>
           <div class="col">{{ score.generated_hand }}</div>
           <div class="col">{{ score.player_score }}</div>
-          <div class="col">{{ score.player_score }}</div>
+          <div class="col">{{ score.generated_score }}</div>
         </div>
       </div>
     </div>

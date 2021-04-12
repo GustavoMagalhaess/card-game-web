@@ -39,8 +39,8 @@
       </form>
     </div>
     <MessagesComponent
-      :successMsg="successMsg"
-      :errorsMsg="errorsMsg"
+      :success-msg="success"
+      :errors-msg="errors"
     ></MessagesComponent>
   </div>
   <div class="score" v-if="this.isWinner">
@@ -70,26 +70,27 @@ export default defineComponent({
       },
       game: {},
       isWinner: false,
-      successMsg: "",
-      errorsMsg: [],
+      success: "",
+      errors: {},
     };
   },
   methods: {
-    async onSubmit() {
-      this.successMsg = "";
-      this.errorsMsg = [];
-      await api
+    onSubmit() {
+      this.success = "";
+      this.errors = {};
+      api
         .post("play", this.play)
         .then((response) => {
           const game = response.data;
           this.game = game || {};
           this.isWinner = game.score.is_winner;
-          this.successMsg = "Game saved.";
-          console.log(this.successMsg);
+          this.success = "Game saved.";
+          console.log(this.success);
         })
         .catch((responseError) => {
-          const errorsList = responseError.response.data.errors;
-          this.errorsMsg = errorsList;
+          const reponseErrorsList = responseError.response.data.errors;
+          this.errors = reponseErrorsList;
+          console.log(this.errors);
         });
     },
   },
@@ -97,8 +98,6 @@ export default defineComponent({
 </script>
 
 <style>
-
-
 h1 {
   font-size: 5em;
 }
@@ -114,7 +113,7 @@ h1 {
 .form > ul {
   font-size: 1em;
   text-align: left;
-  width: 60%;
+  width: 70%;
   margin: 10px auto 0 auto;
 }
 
