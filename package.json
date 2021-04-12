@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "card-game-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "vue": "^3.0.0",
+    "vue": "^3.0.11",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },

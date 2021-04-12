@@ -1,7 +1,5 @@
 <template>
-  <div class="game">
-    <GameComponent />
-  </div>
+  <GameComponent />
 </template>
 
 <script lang="ts">
