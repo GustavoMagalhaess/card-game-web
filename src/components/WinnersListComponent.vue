@@ -2,21 +2,23 @@
   <div class="winners">
     <h2>Winners</h2>
     <div v-for="winner in winners" :key="winner.id">
-      <div class="row">
-        <div class="col main">{{ winner.name }}</div>
-      </div>
-      <div class="row">
-        <div class="col title">Hand</div>
-        <div class="col title">Generated Hand</div>
-        <div class="col title">Score</div>
-        <div class="col title">Generated Score</div>
-      </div>
-      <div class="row">
-        <div class="content" v-for="score in winner.scores" :key="score.id">
-          <div class="col">{{ score.player_hand }}</div>
-          <div class="col">{{ score.generated_hand }}</div>
-          <div class="col">{{ score.player_score }}</div>
-          <div class="col">{{ score.generated_score }}</div>
+      <div v-if="winner.scores.length > 0">
+        <div class="row">
+          <div class="col main">{{ winner.name }}</div>
+        </div>
+        <div class="row">
+          <div class="col title">Hand</div>
+          <div class="col title">Generated Hand</div>
+          <div class="col title">Score</div>
+          <div class="col title">Generated Score</div>
+        </div>
+        <div class="row">
+          <div class="content" v-for="score in winner.scores" :key="score.id">
+            <div class="col">{{ score.player_hand }}</div>
+            <div class="col">{{ score.generated_hand }}</div>
+            <div class="col">{{ score.player_score }}</div>
+            <div class="col">{{ score.generated_score }}</div>
+          </div>
         </div>
       </div>
     </div>
