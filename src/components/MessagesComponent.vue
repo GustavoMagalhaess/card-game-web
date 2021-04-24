@@ -1,11 +1,25 @@
 <template>
-  <div class="success" v-if="successMsg !== ''">
-    <p>{{ successMsg }}</p>
+  <div
+    class="alert alert-success alert-dismissible fade show"
+    role="alert"
+    v-if="successMsg !== ''"
+  >
+    {{ successMsg }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <div class="errors" v-if="Object.keys(errorsMsg).length > 0">
+  <div
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert"
+    v-if="Object.keys(errorsMsg).length > 0"
+  >
     <ul>
       <li v-for="error in errorsMsg" :key="error.id">{{ error }}</li>
     </ul>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
 </template>
 
@@ -25,26 +39,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.success,
-.errors {
-  border: 1px solid transparent;
-  width: 40%;
-  margin: 0 auto 0 auto;
-  border-radius: 5px;
-}
-
-.success {
-  background-color: rgba(106, 241, 94, 0.4);
-  color: green;
-}
-
-.errors {
-  background-color: rgba(241, 94, 94, 0.4);
-  color: red;
-}
-
-.errors > ul {
-  list-style-type: none;
-}
-</style>
+<style scoped></style>

@@ -1,51 +1,64 @@
 <template>
-  <div class="game">
+  <div class="container">
     <h1>Card Game</h1>
-    <div class="form">
-      <ul>
-        <li>Name is required.</li>
-        <li>Enter a hand of cards.</li>
-        <li>
-          Each card should be separated by a space. For example: 2 4 6 J K A.
-        </li>
-        <li>Valid cards include: 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A.</li>
-      </ul>
-      <form @submit.prevent="onSubmit">
-        <div class="form-input">
-          <label class="form-label" for="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            v-model="play.name"
-            placeholder="Player Name"
-            required
-          />
-        </div>
-        <div class="form-input">
-          <label class="form-label" for="hand">Hand</label>
-          <input
-            type="text"
-            id="hand"
-            name="hand"
-            v-model="play.hand"
-            placeholder="Player Hand"
-            required
-          />
-        </div>
-        <div class="form-button">
-          <button class="submit-button" type="submit">Play</button>
-        </div>
-      </form>
+    <div class="row">
+      <div class="col-sm-12">
+        <form @submit.prevent="onSubmit">
+          <div class="row">
+            <div class="col-sm-12">
+              <ul>
+                <li>Name is required.</li>
+                <li>Enter a hand of cards.</li>
+                <li>
+                  Each card should be separated by a space. For example: 2 4 6 J
+                  K A.
+                </li>
+                <li>
+                  Valid cards include: 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K, A.
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="name">Name</label>
+            <div class="col-sm-10">
+              <input
+                class="form-control"
+                type="text"
+                id="name"
+                name="name"
+                v-model="play.name"
+                placeholder="Player Name"
+                required
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="hand">Hand</label>
+            <div class="col-sm-10">
+              <input
+                class="form-control"
+                type="text"
+                id="hand"
+                name="hand"
+                v-model="play.hand"
+                placeholder="Player Hand"
+                required
+              />
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit">Play</button>
+        </form>
+      </div>
     </div>
     <MessagesComponent
       :success-msg="success"
       :errors-msg="errors"
     ></MessagesComponent>
   </div>
-  <div class="score" v-if="this.isWinner">
-    <p>Player: {{ this.game.score.player }}</p>
-    <p>Generated: {{ this.game.score.generated }}</p>
+  <div class="score" v-if="isWinner">
+    <p>Player: {{ game.score.player }}</p>
+    <p>Generated: {{ game.score.generated }}</p>
   </div>
   <WinnersListComponent :isWinner="isWinner" />
 </template>
@@ -54,42 +67,36 @@
 import { defineComponent } from "vue";
 import WinnersListComponent from "@/components/WinnersListComponent.vue";
 import MessagesComponent from "@/components/MessagesComponent.vue";
-import api from "@/api";
+//import api from "@/api";
+import store from "@/store";
 
 export default defineComponent({
+  store,
   name: "GameComponent",
   components: {
     WinnersListComponent,
     MessagesComponent,
   },
-  data() {
-    return {
-      play: {
-        name: null,
-        hand: null,
-      },
-      game: {},
-      isWinner: false,
-      success: "",
-      errors: {},
-    };
-  },
   methods: {
     onSubmit() {
-      this.success = "";
-      this.errors = {};
-      api
-        .post("play", this.play)
-        .then((response) => {
-          const game = response.data;
-          this.game = game || {};
-          this.isWinner = game.score.is_winner;
-          this.success = "Game saved.";
-        })
-        .catch((responseError) => {
-          const reponseErrorsList = responseError.response.data.errors;
-          this.errors = reponseErrorsList;
-        });
+      store.dispatch("play", this.play);
+    },
+  },
+  computed: {
+    success() {
+      return store.state.success;
+    },
+    errors() {
+      return store.state.errors;
+    },
+    game() {
+      return store.state.game;
+    },
+    isWinner() {
+      return store.state.isWinner;
+    },
+    play() {
+      return store.state.play;
     },
   },
 });
@@ -97,68 +104,20 @@ export default defineComponent({
 
 <style>
 h1 {
-  font-size: 5em;
+  margin-top: 20px;
+  margin-bottom: 50px;
 }
 
-.form {
+form {
   background-color: rgba(0, 0, 0, 0.05);
   border-radius: 5px;
-  width: 50%;
-  margin: 50px auto 50px auto;
-  padding: 10px 0 20px 0;
+  margin-bottom: 50px;
+  padding: 20px;
 }
 
-.form > ul {
-  font-size: 1em;
+ul {
   text-align: left;
   width: 70%;
-  margin: 10px auto 0 auto;
-}
-
-input {
-  background-color: #fff;
-  width: 60%;
-  height: 2rem;
-  border-radius: 5px;
-  border-width: 0;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-  margin-right: 50px;
-}
-input:focus {
-  outline: none;
-}
-
-.form-input {
-  margin-top: 15px;
-}
-
-.form-label {
-  display: inline-block;
-  width: 50px;
-  text-align: right;
-  margin-right: 20px;
-  font-weight: bold;
-}
-
-.form-button {
-  width: 100%;
-  margin-top: 20px;
-}
-
-.form-button:after {
-  border-top: 1px solid black;
-}
-
-.submit-button {
-  font-size: 2em;
-  width: 4em;
-  height: 1.5em;
-  background-color: dodgerblue;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-}
-
-.submit-button:hover {
-  background-color: royalblue;
+  margin: 0 auto 30px auto;
 }
 </style>

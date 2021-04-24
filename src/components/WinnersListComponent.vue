@@ -1,103 +1,73 @@
 <template>
-  <div class="winners">
+  <div class="container">
     <h2>Winners</h2>
-    <div v-for="winner in winners" :key="winner.id">
-      <div v-if="winner.scores.length > 0">
-        <div class="row">
-          <div class="col main">{{ winner.name }}</div>
-        </div>
-        <div class="row">
-          <div class="col title">Hand</div>
-          <div class="col title">Generated Hand</div>
-          <div class="col title">Score</div>
-          <div class="col title">Generated Score</div>
-        </div>
-        <div class="row">
-          <div class="content" v-for="score in winner.scores" :key="score.id">
-            <div class="col">{{ score.player_hand }}</div>
-            <div class="col">{{ score.generated_hand }}</div>
-            <div class="col">{{ score.player_score }}</div>
-            <div class="col">{{ score.generated_score }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <table
+      class="table table-sm table-responsive-sm table-striped"
+      v-for="winner in winners"
+      :key="winner.id"
+    >
+      <thead>
+        <tr>
+          <th colspan="4">{{ winner.name }}</th>
+        </tr>
+        <tr>
+          <th scope="col">Hand</th>
+          <th scope="col">Generated Hand</th>
+          <th scope="col">Score</th>
+          <th scope="col">Generated Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="score in winner.scores" :key="score.id">
+          <td>{{ score.player_hand }}</td>
+          <td>{{ score.generated_hand }}</td>
+          <td>{{ score.player_score }}</td>
+          <td>{{ score.generated_score }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import api from "@/api";
+import store from "@/store";
 
 export default defineComponent({
+  store,
   name: "WinnersListComponent",
   props: {
     isWinner: {
       type: Boolean,
-      require: false,
     },
   },
-  data() {
-    return {
-      winners: [],
-    };
-  },
-  watch: {
-    isWinner: function (isWinner) {
-      !isWinner || this.getWinners();
+  computed: {
+    winners() {
+      return store.state.winners;
     },
   },
   methods: {
-    async getWinners() {
-      try {
-        const response = await api.getAll("winners");
-        this.winners = response.data || [];
-      } catch (e) {
-        console.log(e);
-      }
+    getWinners() {
+      store.dispatch("getWinners");
     },
   },
   created() {
     this.getWinners();
+  },
+  watch: {
+    isWinner: function (isWinner) {
+      if (isWinner) {
+        this.getWinners();
+      }
+    },
   },
 });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h2 {
-  font-size: 3em;
-}
-
-.row {
-  display: block;
-  width: 80%;
-  margin: 0 auto 10px auto;
-  padding-top: 10px;
-  border-bottom: 1px solid black;
-}
-
-.content:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.1);
-  padding: 1px;
-}
-
-.col {
-  display: inline-block;
-  width: 19%;
-  height: 25px;
-  padding: 5px;
-}
-
-.title {
-  font-weight: bold;
-  font-size: 1.4em;
-}
-
-.main {
-  font-weight: bold;
-  font-size: 1.8em;
-  padding-top: 25px;
-  margin-bottom: 10px;
+h2,
+table {
+  margin-bottom: 50px;
 }
 </style>
