@@ -31,11 +31,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import store from "@/store";
 import { mapState, mapActions } from "vuex";
 
 export default defineComponent({
-  store,
   name: "WinnersListComponent",
   props: {
     isWinner: {
@@ -48,10 +46,11 @@ export default defineComponent({
     this.getWinners();
   },
   watch: {
-    isWinner: function (isWinner) {
-      if (isWinner) {
-        this.getWinners();
-      }
+    isWinner: {
+      handler: function (value) {
+        value ? this.getWinners() : null;
+      },
+      immediate: true,
     },
   },
 });

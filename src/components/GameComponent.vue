@@ -67,11 +67,9 @@
 import { defineComponent } from "vue";
 import WinnersListComponent from "@/components/WinnersListComponent.vue";
 import MessagesComponent from "@/components/MessagesComponent.vue";
-import store from "@/store";
 import { mapState, mapActions } from "vuex";
 
 export default defineComponent({
-  store,
   name: "GameComponent",
   components: {
     WinnersListComponent,

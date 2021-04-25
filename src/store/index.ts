@@ -28,7 +28,6 @@ export default createStore({
       state.errors = payload;
     },
     reset(state) {
-      console.log(state);
       state.isWinner = false;
       state.success = "";
       state.errors = [];
