@@ -32,6 +32,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import store from "@/store";
+import { mapState, mapActions } from "vuex";
 
 export default defineComponent({
   store,
@@ -41,16 +42,8 @@ export default defineComponent({
       type: Boolean,
     },
   },
-  computed: {
-    winners() {
-      return store.state.winners;
-    },
-  },
-  methods: {
-    getWinners() {
-      store.dispatch("getWinners");
-    },
-  },
+  computed: mapState(["winners"]),
+  methods: mapActions(["getWinners"]),
   created() {
     this.getWinners();
   },

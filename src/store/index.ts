@@ -11,7 +11,7 @@ export default createStore({
     game: {},
     isWinner: false,
     success: "",
-    errors: {},
+    errors: [],
   },
   mutations: {
     setWinners(state, payload) {
@@ -21,9 +21,17 @@ export default createStore({
       state.game = payload;
       state.isWinner = payload.score.is_winner;
       state.success = "Game Saved.";
+      state.play.name = "";
+      state.play.hand = "";
     },
     setErrors(state, payload) {
       state.errors = payload;
+    },
+    reset(state) {
+      console.log(state);
+      state.isWinner = false;
+      state.success = "";
+      state.errors = [];
     },
   },
   actions: {
@@ -31,9 +39,10 @@ export default createStore({
       const response = await api.getAll("winners");
       commit("setWinners", response.data || []);
     },
-    async play({ commit }, play) {
+    async play({ commit, state }) {
+      commit("reset");
       await api
-        .post("play", play)
+        .post("play", state.play)
         .then((response) => commit("setGame", response.data || {}))
         .catch((error) => commit("setErrors", error.response.data.errors));
     },

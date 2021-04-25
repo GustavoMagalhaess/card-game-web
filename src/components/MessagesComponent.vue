@@ -12,10 +12,10 @@
   <div
     class="alert alert-danger alert-dismissible fade show"
     role="alert"
-    v-if="Object.keys(errorsMsg).length > 0"
+    v-if="errorsMsg.length > 0"
   >
     <ul>
-      <li v-for="error in errorsMsg" :key="error.id">{{ error }}</li>
+      <li v-for="(error, index) in errorsMsg" :key="index">{{ error }}</li>
     </ul>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -35,7 +35,7 @@ export default defineComponent({
     errorsMsg: {
       type: Object,
     },
-  },
+  }
 });
 </script>
 

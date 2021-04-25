@@ -67,8 +67,8 @@
 import { defineComponent } from "vue";
 import WinnersListComponent from "@/components/WinnersListComponent.vue";
 import MessagesComponent from "@/components/MessagesComponent.vue";
-//import api from "@/api";
 import store from "@/store";
+import { mapState, mapActions } from "vuex";
 
 export default defineComponent({
   store,
@@ -77,28 +77,8 @@ export default defineComponent({
     WinnersListComponent,
     MessagesComponent,
   },
-  methods: {
-    onSubmit() {
-      store.dispatch("play", this.play);
-    },
-  },
-  computed: {
-    success() {
-      return store.state.success;
-    },
-    errors() {
-      return store.state.errors;
-    },
-    game() {
-      return store.state.game;
-    },
-    isWinner() {
-      return store.state.isWinner;
-    },
-    play() {
-      return store.state.play;
-    },
-  },
+  methods: mapActions({ onSubmit: "play" }),
+  computed: mapState(["success", "errors", "game", "isWinner", "play"]),
 });
 </script>
 
